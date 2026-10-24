@@ -19,10 +19,10 @@ set(CMAKE_Fortran_FLAGS_DEBUG "-O0 -check -check noarg_temp_created -check nopoi
 set(CMAKE_Fortran_LINK_FLAGS "")
 
 if(NOT CMAKE_BUILD_TYPE MATCHES "^(Debug|Repro)$")
+  set(FAST "-fimf-precision=medium -fimf-use-svml=true")
   if(AVX2)
     set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -march=core-avx2")
   elseif(SIMDMULTIARCH)
     set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -axSSE4.2,CORE-AVX2")
   endif()
 endif()
-
