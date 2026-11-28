@@ -13,13 +13,16 @@ if(FASTER)
 else()
   set(CMAKE_Fortran_FLAGS_RELEASE "-O2 -debug minimal -fp-model strict -qoverride-limits")
 endif()
+# Route all math calls (scalar and vector) to bitwise-reproducible SVML, so no loop
+# mixes Intel and glibc math when ufs-weather-model links glibc's libm first
+# (layout reproducibility); same flags as ufs-weather-model cmake/IntelLLVM.cmake.
++set(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE} -fimf-use-svml=true -fimf-arch-consistency=true")
 
 set(CMAKE_Fortran_FLAGS_DEBUG "-O0 -check -check noarg_temp_created -check nopointer -warn -warn noerrors -fstack-protector-all -fpe0 -debug -ftrapuv -init=snan,arrays")
 
 set(CMAKE_Fortran_LINK_FLAGS "")
 
 if(NOT CMAKE_BUILD_TYPE MATCHES "^(Debug|Repro)$")
-  set(FAST "-fimf-use-svml=true -fimf-arch-consistency=true")
   if(AVX2)
     set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -march=core-avx2")
   elseif(SIMDMULTIARCH)
