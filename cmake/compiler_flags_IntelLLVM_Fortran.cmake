@@ -16,7 +16,7 @@ endif()
 # Route all math calls (scalar and vector) to bitwise-reproducible SVML, so no loop
 # mixes Intel and glibc math when ufs-weather-model links glibc's libm first
 # (layout reproducibility); same flags as ufs-weather-model cmake/IntelLLVM.cmake.
-+set(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE} -fimf-use-svml=true -fimf-arch-consistency=true")
+set(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE} -fimf-use-svml=true -fimf-arch-consistency=true")
 
 set(CMAKE_Fortran_FLAGS_DEBUG "-O0 -check -check noarg_temp_created -check nopointer -warn -warn noerrors -fstack-protector-all -fpe0 -debug -ftrapuv -init=snan,arrays")
 
